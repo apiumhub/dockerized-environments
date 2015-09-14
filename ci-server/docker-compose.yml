@@ -1,0 +1,33 @@
+db: 
+    image: mysql:5.6
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=sonar
+        - MYSQL_PASSWORD=sonar
+        - MYSQL_DATABASE=sonar
+    volumes:
+        - /opt/ci-server/mysql:/var/lib/mysql
+    restart: always
+
+jenkins:
+    image: jenkins:1.609.3
+    volumes:
+        - /opt/ci-server/jenkins:/var/jenkins_home
+    ports:
+        - 80:8080
+        - 5000:5000
+    user: root
+    restart: always
+
+sonar:
+    image: sonarqube:5.1.2
+    environment:
+        - SONARQUBE_JDBC_USERNAME=sonar
+        - SONARQUBE_JDBC_PASSWORD=sonar
+        - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/sonar?useUnicode=true&characterEncoding=utf8
+    ports:
+        - 9000:9000
+        - 9092:9092
+    links:
+        - db
+    restart: always
