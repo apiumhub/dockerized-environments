@@ -33,10 +33,10 @@ sonar:
     restart: always
 
 artifactory:
-    user: root
-    image: jfrog-docker-registry.bintray.io/jfrog/artifactory-oss:latest
+    image: artifactory
     ports:
         - 8081:8081
+        - 8080:8080
     volumes:
         - /opt/ci-server/artifactory/data:/var/opt/jfrog/artifactory/data
         - /opt/ci-server/artifactory/backup:/var/opt/jfrog/artifactory/backup
